@@ -1,0 +1,77 @@
+CREATE TABLE Coupon (
+  id INT PRIMARY KEY,
+  name VARCHAR(255),
+  description TEXT,
+  start_date DATE,
+  end_date DATE,
+  discount_type VARCHAR(255),
+  discount_value DECIMAL,
+  usage_limit INT,
+  min_purchase_amount DECIMAL,
+  max_purchase_amount DECIMAL,
+  status VARCHAR(255),
+  created_by INT
+);
+
+CREATE TABLE CouponUsage (
+  id INT PRIMARY KEY,
+  coupon_id INT,
+  user_id INT,
+  usage_date DATE,
+  transaction_amount DECIMAL,
+  FOREIGN KEY (coupon_id) REFERENCES Coupon(id),
+  FOREIGN KEY (user_id) REFERENCES MarketplaceUser(id)
+);
+
+CREATE TABLE CouponHistory (
+  id INT PRIMARY KEY,
+  coupon_id INT,
+  change_date DATE,
+  field_changed VARCHAR(255),
+  old_value VARCHAR(255),
+  new_value VARCHAR(255),
+  FOREIGN KEY (coupon_id) REFERENCES Coupon(id)
+);
+
+CREATE TABLE PurchaseCoupon (
+  id INT PRIMARY KEY,
+  purchase_id INT,
+  coupon_id INT,
+  FOREIGN KEY (purchase_id) REFERENCES Purchase(id),
+  FOREIGN KEY (coupon_id) REFERENCES Coupon(id)
+);
+
+CREATE TABLE Purchase (
+  id INT PRIMARY KEY,
+  user_id INT,
+  date DATE,
+  amount DECIMAL,
+  FOREIGN KEY (user_id) REFERENCES MarketplaceUser(id)
+);
+
+CREATE TABLE MarketplaceUser (
+  id INT PRIMARY KEY,
+  username VARCHAR(255),
+  password VARCHAR(255),
+  email VARCHAR(255)
+);
+
+CREATE TABLE MarketingUser (
+  id INT PRIMARY KEY,
+  username VARCHAR(255),
+  password VARCHAR(255),
+  email VARCHAR(255)
+);
+
+CREATE TABLE UserRole (
+  id INT PRIMARY KEY,
+  user_id INT,
+  role_id INT,
+  FOREIGN KEY (user_id) REFERENCES MarketplaceUser(id),
+  FOREIGN KEY (role_id) REFERENCES Role(id)
+);
+
+CREATE TABLE Role (
+  id INT PRIMARY KEY,
+  name VARCHAR(255)
+);
