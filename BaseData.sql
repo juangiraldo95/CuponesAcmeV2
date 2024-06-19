@@ -2,26 +2,53 @@
 CREATE DATABASE 
     DEFAULT CHARACTER SET = 'utf8mb4';
 
-DROP TABLE Coupon;
-DROP TABLE CouponUsage;
-DROP TABLE CouponHistory;
-DROP TABLE PurchaseCoupon;
-DROP TABLE Purchase;
-DROP TABLE MarketplaceUser;
-DROP TABLE MarketingUser;
-DROP TABLE Role;
+DROP TABLE Coupones;
+DROP TABLE CouponUsages;
+DROP TABLE CouponHistories;
+DROP TABLE PurchaseCoupones;
+DROP TABLE Purchases;
+DROP TABLE MarketplaceUsers;
+DROP TABLE MarketingUsers;
+DROP TABLE Roles;
 
 
-CouponUsage
-CouponHistory
-PurchaseCoupon
-Purchase
-MarketplaceUser
-MarketingUser
-Role
+CREATE TABLE Roles (
+  Id INT PRIMARY KEY AUTO_INCREMENT,
+  Name VARCHAR(255)
+);
 
-CREATE TABLE Coupones (
-  Id INT PRIMARY KEY,
+CREATE TABLE MarketplaceUsers (
+  Id INT PRIMARY KEY AUTO_INCREMENT,
+  UserName VARCHAR(255),
+  Password VARCHAR(255),
+  Email VARCHAR(255)
+);
+
+CREATE TABLE UsersRoles (
+  Id INT PRIMARY KEY AUTO_INCREMENT,
+  UserId INT,
+  RoleId INT,
+  FOREIGN KEY (UserId) REFERENCES MarketplaceUsers(Id),
+  FOREIGN KEY (RoleId) REFERENCES Roles(Id)
+);
+
+CREATE TABLE MarketingUsers (
+  Id INT PRIMARY KEY AUTO_INCREMENT,
+  UserName VARCHAR(255),
+  Password VARCHAR(255),
+  Email VARCHAR(255)
+);
+
+CREATE TABLE Purchases (
+  Id INT PRIMARY KEY AUTO_INCREMENT,
+  UserId INT,
+  Date DATE,
+  Amount DECIMAL,
+  FOREIGN KEY (UserId) REFERENCES MarketplaceUsers(Id)
+);
+
+CREATE TABLE Coupons (
+  Id INT PRIMARY KEY AUTO_INCREMENT,
   Name VARCHAR(255),
   Description VARCHAR(255),
   StartDate DATE,
@@ -36,68 +63,40 @@ CREATE TABLE Coupones (
   FOREIGN KEY (CreatedBy) REFERENCES MarketingUsers(Id)
 );
 
-CREATE TABLE CouponesUsages (
-  Id INT PRIMARY KEY,
+CREATE TABLE CouponsUsages (
+  Id INT PRIMARY KEY AUTO_INCREMENT,
   CouponId INT,
   UserId INT,
   UsageDate DATE,
   TransactionAmount DECIMAL,
-  FOREIGN KEY (CouponId) REFERENCES Coupones(Id),
+  FOREIGN KEY (CouponId) REFERENCES Coupons(Id),
   FOREIGN KEY (UserId) REFERENCES MarketplaceUsers(Id)
 );
 
-CREATE TABLE CouponesHistories (
-  Id INT PRIMARY KEY,
+
+
+CREATE TABLE PurchasesCoupons (
+  Id INT PRIMARY KEY AUTO_INCREMENT,
+  PurchaseId INT,
+  CouponId INT,
+  FOREIGN KEY (PurchaseId) REFERENCES Purchases(Id),
+  FOREIGN KEY (CouponId) REFERENCES Coupons(Id)
+);
+
+
+
+CREATE TABLE CouponsHistories (
+  Id INT PRIMARY KEY AUTO_INCREMENT,
   CouponId INT,
   ChangeDate DATE,
   FieldChanged VARCHAR(255),
   OldValue VARCHAR(255),
   NewValue VARCHAR(255),
-  FOREIGN KEY (CouponId) REFERENCES Coupones(Id)
+  FOREIGN KEY (CouponId) REFERENCES Coupons(Id)
 );
 
-CREATE TABLE PurchasesCoupones (
-  Id INT PRIMARY KEY,
-  PurchaseId INT,
-  CouponId INT,
-  FOREIGN KEY (PurchaseId) REFERENCES Purchases(Id),
-  FOREIGN KEY (CouponId) REFERENCES Coupones(Id)
-);
 
-CREATE TABLE Purchases (
-  Id INT PRIMARY KEY,
-  UserId INT,
-  Date DATE,
-  Amount DECIMAL,
-  FOREIGN KEY (UserId) REFERENCES MarketplaceUsers(Id)
-);
 
-CREATE TABLE MarketplaceUsers (
-  Id INT PRIMARY KEY,
-  UserName VARCHAR(255),
-  Password VARCHAR(255),
-  Email VARCHAR(255)
-);
-
-CREATE TABLE MarketingUsers (
-  Id INT PRIMARY KEY,
-  UserName VARCHAR(255),
-  Password VARCHAR(255),
-  Email VARCHAR(255)
-);
-
-CREATE TABLE UsersRoles (
-  Id INT PRIMARY KEY,
-  UserId INT,
-  RoleId INT,
-  FOREIGN KEY (UserId) REFERENCES MarketplaceUsers(Id),
-  FOREIGN KEY (RoleId) REFERENCES Role(Id)
-);
-
-CREATE TABLE Roles (
-  Id INT PRIMARY KEY,
-  Name VARCHAR(255)
-);
 
 /*________________________________  Registros________________________________ */
 

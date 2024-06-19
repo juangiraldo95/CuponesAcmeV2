@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using CuponesV2;
+using CuponesV2.Data;
+using CuponesV2.Services.Rol;
+using CuponesV2.Services;
 
 
 
@@ -15,6 +18,8 @@ builder.Services.AddDbContext<BaseContext>(options=>
         builder.Configuration.GetConnectionString("MysqlConnection"),
         Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.20-mysql")));
 
+builder.Services.AddScoped<IRolRespository, RolRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,30 +31,5 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
-
 app.MapControllers();
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
