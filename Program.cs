@@ -3,6 +3,7 @@ using CuponesV2;
 using CuponesV2.Data;
 using CuponesV2.Services.Rol;
 using CuponesV2.Services;
+using CuponesAcmeV2.Services;
 
 
 
@@ -19,6 +20,7 @@ builder.Services.AddDbContext<BaseContext>(options=>
         Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.20-mysql")));
 
 builder.Services.AddScoped<IRolRespository, RolRepository>();
+builder.Services.AddScoped<IMarketingUserRepository, MarketingUserRepository>();
 
 var app = builder.Build();
 
