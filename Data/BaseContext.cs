@@ -13,7 +13,7 @@ namespace CuponesV2.Data
         
         public DbSet<Coupon> Coupones { get; set; }
         public DbSet<CouponHistory> CouponsHistories { get; set; }
-        public DbSet<CouponUsage> CouponesUsage { get; set; }
+        public DbSet<CouponUsage> CouponsUsages { get; set; }
         public DbSet<MarketingUser> MarketingUser  { get; set; }
         public DbSet<MarketplaceUser> MarketplaceUser { get; set; }
         public DbSet<Purchase> Purchase { get; set; }

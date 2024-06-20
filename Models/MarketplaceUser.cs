@@ -10,12 +10,13 @@ namespace  Cuponesv2.Models
     public class MarketplaceUser
     {
         public int Id { get; set;}
-        [Required(ErrorMessage = "El campo UserName es requerido.")]
+        
         public int UserName { get; set;}
-        [Required(ErrorMessage = "El campo Password es requerido.")]
+        [Required(ErrorMessage = "El campo UserName es requerido.")]
         public int Password { get; set;}
-        [Required(ErrorMessage = "El campo Email es requerido.")]
+        [Required(ErrorMessage = "El campo Password es requerido.")]
         public int Email { get; set;}
+        [Required(ErrorMessage = "El campo Email es requerido.")]
 
         [JsonIgnore]
         public List<UserRole>? UserRoles { get; set; }

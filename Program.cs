@@ -19,6 +19,7 @@ builder.Services.AddDbContext<BaseContext>(options=>
         Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.20-mysql")));
 
 builder.Services.AddScoped<IRolRespository, RolRepository>();
+builder.Services.AddScoped<ICouponsUsagesRepository, CouponsUsagesRepository>();
 
 var app = builder.Build();
 

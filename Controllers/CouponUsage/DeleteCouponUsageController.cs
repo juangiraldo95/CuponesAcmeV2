@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CuponesV2.Controllers.CouponUsage
+namespace CuponesV2.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
